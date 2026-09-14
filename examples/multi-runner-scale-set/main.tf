@@ -58,6 +58,7 @@ module "runners" {
       grouping = {
         strategy = "runner_config"
       }
+      container = var.scale_set.container
       network = {
         vpc_id     = module.base.vpc.vpc_id
         subnet_ids = module.base.vpc.private_subnets

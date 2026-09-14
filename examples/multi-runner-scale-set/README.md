@@ -27,7 +27,7 @@ Configure the GitHub App variables before applying:
 terraform init
 terraform apply \
   -var='github_app={id="123456",key_base64="...",installation_id_ssm={name="/github/scale-set/installation-id",arn="arn:aws:ssm:eu-west-1:123456789012:parameter/github/scale-set/installation-id"}}' \
-  -var='scale_set={config_url="https://github.com/example" installation_id_ssm={name="/github/scale-set/installation-id",arn="arn:aws:ssm:eu-west-1:123456789012:parameter/github/scale-set/installation-id"} name="linux-scale-set" id=123}'
+  -var='scale_set={config_url="https://github.com/example" installation_id_ssm={name="/github/scale-set/installation-id",arn="arn:aws:ssm:eu-west-1:123456789012:parameter/github/scale-set/installation-id"} name="linux-scale-set" id=123 container={image="ghcr.io/github-aws-runners/terraform-aws-github-runner-scale-set-service@sha256:<release-digest>"} runner_owner="example-org" runner_registration_level="organization"}'
 ```
 
 The `github_app` value is sensitive and should be supplied through a secure
@@ -74,7 +74,7 @@ parameter and the GitHub App must be installed for the configured URL.
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name, used as prefix. | `string` | `null` | no |
 | <a name="input_github_app"></a> [github\_app](#input\_github\_app) | GitHub App ID, base64-encoded private key, and installation ID SSM parameter. | <pre>object({<br/>    id         = string<br/>    key_base64 = string<br/>    installation_id_ssm = optional(object({<br/>      arn  = string<br/>      name = string<br/>    }))<br/>  })</pre> | n/a | yes |
 | <a name="input_runner_binaries_enabled"></a> [runner\_binaries\_enabled](#input\_runner\_binaries\_enabled) | Whether runner binary synchronization is enabled. | `bool` | `true` | no |
-| <a name="input_scale_set"></a> [scale\_set](#input\_scale\_set) | GitHub Actions scale-set configuration. | <pre>object({<br/>    config_url = string<br/>    installation_id_ssm = object({<br/>      arn  = string<br/>      name = string<br/>    })<br/>    name                      = string<br/>    id                        = number<br/>    runner_group_id           = optional(number)<br/>    runner_owner              = string<br/>    runner_registration_level = string<br/>  })</pre> | n/a | yes |
+| <a name="input_scale_set"></a> [scale\_set](#input\_scale\_set) | GitHub Actions scale-set configuration. | <pre>object({<br/>    config_url = string<br/>    installation_id_ssm = object({<br/>      arn  = string<br/>      name = string<br/>    })<br/>    name                      = string<br/>    id                        = number<br/>    runner_group_id           = optional(number)<br/>    container = optional(object({<br/>      image = optional(string, null)<br/>    }), {})<br/>    runner_owner              = string<br/>    runner_registration_level = string<br/>  })</pre> | n/a | yes |
 
 ## Outputs
 

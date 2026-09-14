@@ -21,9 +21,12 @@ variable "scale_set" {
       arn  = string
       name = string
     })
-    name                      = string
-    id                        = number
-    runner_group_id           = optional(number)
+    name            = string
+    id              = number
+    runner_group_id = optional(number)
+    container = optional(object({
+      image = optional(string, null)
+    }), {})
     runner_owner              = string
     runner_registration_level = string
   })
